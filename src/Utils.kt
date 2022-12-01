@@ -8,6 +8,16 @@ import java.security.MessageDigest
 fun readInput(name: String) = File("src", "$name.txt")
     .readLines()
 
+inline fun <T> Collection<T>.partitionBy(predicate: (T) -> Boolean): List<List<T>> {
+    return fold(mutableListOf(mutableListOf())) { acc: MutableList<MutableList<T>>, it ->
+        when {
+            predicate(it) -> acc.add(mutableListOf())
+            else -> acc.last() += it
+        }
+        acc
+    }
+}
+
 /**
  * Converts string to md5 hash.
  */
