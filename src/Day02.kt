@@ -8,7 +8,7 @@ fun main() {
     println(part2(input))
 }
 
-fun part1(input: List<String>): Int {
+private fun part1(input: List<String>): Int {
     return input.map(::parseLine)
         .sumOf { (opponent, player) ->
             val baseScore = player + 1
@@ -22,7 +22,7 @@ fun part1(input: List<String>): Int {
 }
 
 
-fun part2(input: List<String>): Int {
+private fun part2(input: List<String>): Int {
     return input.map(::parseLine)
         .sumOf { (opponent, player) ->
             val gameScore = player * 3
@@ -36,4 +36,4 @@ fun part2(input: List<String>): Int {
         }
 }
 
-fun parseLine(line: String): Pair<Int, Int> = line.first() - 'A' to line.last() - 'X'
+private fun parseLine(line: String): Pair<Int, Int> = line.first() - 'A' to line.last() - 'X'
