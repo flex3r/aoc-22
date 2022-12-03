@@ -10,28 +10,22 @@ fun main() {
 
 private fun part1(input: List<String>): Int {
     return input
-        .map { it.findDuplicate() }
+        .map { it.chunked(size = it.length / 2).findDuplicate() }
         .sumOf { it.toPriority() }
 }
-
 
 private fun part2(input: List<String>): Int {
     return input
         .chunked(3)
-        .map { it.findGroupBadge() }
+        .map { it.findDuplicate() }
         .sumOf { it.toPriority() }
 }
 
-private fun String.findDuplicate(): Char {
-    val (first, second) = toList().chunked(size = length / 2)
-    val duplicates = first intersect second.toSet()
-    return duplicates.first()
-}
-
-private fun List<String>.findGroupBadge(): Char {
-    val (first, second, third) = map { it.toSet() }
-    val duplicates = first intersect second intersect third
-    return duplicates.first()
+private fun List<String>.findDuplicate(): Char {
+    return map { it.toSet() }
+        .reduce { acc, chars ->
+            acc intersect chars
+        }.first()
 }
 
 // too lazy for char codes today
