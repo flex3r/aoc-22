@@ -10,12 +10,12 @@ fun main() {
 
 private fun part1(input: List<String>): Int {
     return input.map(::parseLine)
-        .count { (first, second) -> first fullyIn second || second fullyIn first }
+        .count { (first, second) -> first in second || second in first }
 }
 
 private fun part2(input: List<String>): Int {
     return input.map(::parseLine)
-        .count { (first, second) -> first in second || second in first }
+        .count { (first, second) -> first overlaps second || second overlaps first }
 }
 
 private fun parseLine(line: String): Pair<IntRange, IntRange> {
@@ -26,10 +26,10 @@ private fun parseLine(line: String): Pair<IntRange, IntRange> {
     return first to second
 }
 
-private infix fun IntRange.fullyIn(other: IntRange): Boolean {
+private operator fun IntRange.contains(other: IntRange): Boolean {
     return start in other && endInclusive in other
 }
 
-private operator fun IntRange.contains(other: IntRange): Boolean {
+private infix fun IntRange.overlaps(other: IntRange): Boolean {
     return start in other || endInclusive in other
 }
