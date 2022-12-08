@@ -20,6 +20,8 @@ inline fun <T> Collection<T>.partitionBy(predicate: (T) -> Boolean): List<List<T
     }
 }
 
+fun <T> List<List<T>>.transpose(): List<List<T>> = this[0].indices.map { x -> indices.map { y -> this[y][x] } }
+
 /**
  * Converts string to md5 hash.
  */
