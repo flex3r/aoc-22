@@ -36,20 +36,6 @@ private fun parseHills(input: List<String>): HillData {
     return HillData(start, end, hills)
 }
 
-private fun <T> bfs(start: T, neighbors: T.() -> List<T>) = sequence {
-    val queue = ArrayDeque(listOf(start.withIndex(index = 0)))
-    val seen = mutableSetOf(start)
-    while(queue.isNotEmpty()) {
-        val (index, current) = queue.removeFirst().also { yield(it) }
-        current.neighbors().forEach { neighbor ->
-            if (seen.add(neighbor)) {
-                queue.add(neighbor.withIndex(index = index + 1))
-            }
-        }
-    }
-}
-private fun <T> T.withIndex(index: Int) = IndexedValue(index, value = this)
-
 private data class HillData(val start: Hill, val end: Hill, val hills: List<List<Hill>>)
 private data class Hill(val char: Char, val x: Int, val y: Int, val height: Int = char.code) {
     fun neighbors(hills: List<List<Hill>>)= buildList {
