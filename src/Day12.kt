@@ -10,13 +10,13 @@ fun main() {
 
 private fun part1(input: List<String>): Int {
     val (start, end, hills) = parseHills(input)
-    return bfs(start) { neighbors(hills).filter { it.height - height <= 1 } }
+    return bfs(start) { hill -> hill.neighbors(hills).filter { it.height - hill.height <= 1 } }
         .first { (_, it) -> hills[it.y][it.x] == end }
         .index
 }
 private fun part2(input: List<String>): Int {
     val (_, end, hills) = parseHills(input)
-    return bfs(end) { neighbors(hills).filter { height - it.height <= 1 } }
+    return bfs(end) { hill -> hill.neighbors(hills).filter { hill.height - it.height <= 1 } }
         .first { (_, it) -> hills[it.y][it.x].char == 'a' }
         .index
 }

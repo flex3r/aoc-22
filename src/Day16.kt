@@ -78,7 +78,7 @@ private fun parseTunnels(input: List<String>): Triple<Map<String, Map<String, In
     }
 
     val shortestPathDistances = tunnels.associateWith { t1 ->
-        tunnels.associateWith { t2 -> bfs(t1) { paths.getValue(this) }.first { it.value == t2 }.index }
+        tunnels.associateWith { t2 -> bfs(t1) { paths.getValue(it) }.first { it.value == t2 }.index }
     }
     // reduces tunnels from 59 to 15!!
     val tunnelsWithNonZeroRate = tunnels.filter { flowRates.getValue(it) > 0 }

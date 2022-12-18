@@ -47,12 +47,12 @@ fun <T> combinations(values: List<T>, m: Int) = sequence {
     }
 }
 
-fun <T> bfs(start: T, neighbors: T.() -> List<T>) = sequence {
+fun <T> bfs(start: T, neighbors: (T) -> List<T>) = sequence {
     val queue = ArrayDeque(listOf(start.withIndex(index = 0)))
     val seen = mutableSetOf(start)
     while (queue.isNotEmpty()) {
         val (index, current) = queue.removeFirst().also { yield(it) }
-        current.neighbors().forEach { neighbor ->
+        neighbors(current).forEach { neighbor ->
             if (seen.add(neighbor)) {
                 queue.add(neighbor.withIndex(index = index + 1))
             }
@@ -67,6 +67,8 @@ suspend inline fun <T> measureAndPrintResult(crossinline block: suspend () -> T)
         println(block())
     }.also { println("Took $it") }
 }
+
+fun <T> List<T>.nth(n: Int) = this[n % size]
 
 /**
  * Converts string to md5 hash.
