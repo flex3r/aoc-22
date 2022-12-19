@@ -76,3 +76,5 @@ fun <T> List<T>.nth(n: Int) = this[n % size]
 fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray()))
     .toString(16)
     .padStart(32, '0')
+
+fun Iterable<Int>.product(): Int = reduce { acc, i -> acc * i }
