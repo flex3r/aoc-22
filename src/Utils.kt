@@ -78,3 +78,22 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
     .padStart(32, '0')
 
 fun Iterable<Int>.product(): Int = reduce { acc, i -> acc * i }
+
+data class Vec2(val x: Int, val y: Int) {
+    operator fun plus(other: Vec2) = Vec2(x + other.x, y + other.y)
+    operator fun div(scalar: Int) = Vec2(x / scalar, y / scalar)
+}
+
+data class Grid<T>(val values: List<T>, val width: Int, val height: Int) {
+    operator fun contains(other: Vec2) = other.x in (0 until width) && other.y in (0 until height)
+    operator fun get(position: Vec2): T = values[position.y * width + position.x]
+    fun getRowCells(y: Int) = (0 until width).map { x -> Vec2(x, y).let { it to get(it) }  }
+    fun getColumnCells(x: Int) = (0 until height).map { y -> Vec2(x, y).let { it to get(it) } }
+
+    companion object {
+        inline fun <reified T> fromInput(width: Int, height: Int, valueAt: (Vec2) -> T): Grid<T> {
+            val values = List(width * height) { idx -> valueAt(Vec2(idx % width, idx / width)) }
+            return Grid(values, width, height)
+        }
+    }
+}
