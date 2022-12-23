@@ -84,6 +84,9 @@ data class Vec2(val x: Int, val y: Int) {
     operator fun div(scalar: Int) = Vec2(x / scalar, y / scalar)
 }
 
+fun Iterable<Vec2>.maxWidth() = maxOf { it.x } - minOf { it.x } + 1
+fun Iterable<Vec2>.maxHeight() = maxOf { it.y } - minOf { it.y } + 1
+
 data class Grid<T>(val values: List<T>, val width: Int, val height: Int) {
     operator fun contains(other: Vec2) = other.x in (0 until width) && other.y in (0 until height)
     operator fun get(position: Vec2): T = values[position.y * width + position.x]
