@@ -80,6 +80,12 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
 fun Iterable<Int>.product(): Int = reduce { acc, i -> acc * i }
 
 data class Vec2(val x: Int, val y: Int) {
+    val neighbors: List<Vec2> get() = listOf(
+        copy(x = x + 1),
+        copy(x = x - 1),
+        copy(y = y + 1),
+        copy(y = y - 1),
+    )
     operator fun plus(other: Vec2) = Vec2(x + other.x, y + other.y)
     operator fun div(scalar: Int) = Vec2(x / scalar, y / scalar)
 }
@@ -89,7 +95,8 @@ fun Iterable<Vec2>.maxHeight() = maxOf { it.y } - minOf { it.y } + 1
 
 data class Grid<T>(val values: List<T>, val width: Int, val height: Int) {
     operator fun contains(other: Vec2) = other.x in (0 until width) && other.y in (0 until height)
-    operator fun get(position: Vec2): T = values[position.y * width + position.x]
+    fun get(x: Int, y: Int): T = values[y * width + x]
+    operator fun get(position: Vec2): T = get(position.x, position.y)
     fun getRowCells(y: Int) = (0 until width).map { x -> Vec2(x, y).let { it to get(it) }  }
     fun getColumnCells(x: Int) = (0 until height).map { y -> Vec2(x, y).let { it to get(it) } }
 
